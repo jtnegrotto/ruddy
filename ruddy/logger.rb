@@ -11,6 +11,7 @@ module Ruddy
     def initialize
       @logger = ::Logger.new($stdout)
       super(logger)
+      logger.level = ENV.fetch('LOG_LEVEL', :info)
     end
   end
 end
