@@ -33,7 +33,8 @@ module Ruddy
     end
 
     def enqueue(pulses, callable)
-      @incoming << [pulses, callable]
+      target = pulse + pulses
+      @incoming << HeartbeatEvent.new(target, callable)
     end
 
     private
@@ -42,9 +43,9 @@ module Ruddy
       Ruddy.logger.debug { "Heartbeat #{pulse}" }
 
       @incoming.size.times do
-        pulses, callable = @incoming.pop
-        target = pulses + pulse
-        @buckets[target % NUM_BUCKETS] << HeartbeatEvent.new(target, callable)
+        event = @incoming.pop
+        target = [event.due_at, pulse].max
+        @buckets[target % NUM_BUCKETS] << event
       end
 
       bucket_idx = pulse % NUM_BUCKETS
