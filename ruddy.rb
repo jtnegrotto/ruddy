@@ -3,6 +3,10 @@ require_relative "ruddy/server"
 require_relative "ruddy/client"
 require_relative "ruddy/session"
 require_relative "ruddy/heartbeat"
+require_relative "ruddy/world"
+require_relative "ruddy/record"
+require_relative "ruddy/player"
+require_relative "ruddy/room"
 
 module Ruddy
   def self.start
@@ -24,5 +28,3 @@ module Ruddy
     Heartbeat.instance
   end
 end
-
-Ruddy.start
